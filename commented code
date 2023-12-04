@@ -1,0 +1,418 @@
+/*Periodic Table of Elements. Coded by Joe Hicks for URI CSC 106 Final Project. All code is original except for the button constructor class and object instances are copie from the Khan button class in the instructional videos. The periodic table data was added in by hand from data copied from https://pubchem.ncbi.nlm.nih.gov/periodic-table/. Any errors in the data are the coder's.  */
+
+
+
+/* An array of objects is created to store the data for each individual element. Four properties of each element are stored in an object for each element.*/
+
+var elementData = [{atomicNumber: 1,
+                    symbol: "H",
+                    name: "Hydrogen",
+                    atomicWeight: 1.008},
+                    
+                    {atomicNumber: 2,
+                    symbol: "He",
+                    name: "Helium",
+                    atomicWeight: 4.0026},
+                    
+                    {atomicNumber: 3,
+                    symbol: "Li",
+                    name: "Lithium",
+                    atomicWeight: 6.938},
+                    
+                    {atomicNumber: 4,
+                    symbol: "Be",
+                    name: "Beryllium",
+                    atomicWeight: 9.012},
+                    
+                    {atomicNumber: 5,
+                    symbol: "Bo",
+                    name: "Boron",
+                    atomicWeight: 10.806},
+                    
+                    {atomicNumber: 6,
+                    symbol: "C",
+                    name: "Carbon",
+                    atomicWeight: 12.0096},
+                    
+                    {atomicNumber: 7,
+                    symbol: "N",
+                    name: "Nitrogen",
+                    atomicWeight: 14.0054},
+                    
+                    {atomicNumber: 8,
+                    symbol: "O",
+                    name: "Oxygen",
+                    atomicWeight: 15.999},
+                    
+                    {atomicNumber: 9,
+                    symbol: "Fl",
+                    name: "Fluorine",
+                    atomicWeight: 18.998},
+                    
+                    {atomicNumber: 10,
+                    symbol: "Ne",
+                    name: "Neon",
+                    atomicWeight: 20.1797},
+                    
+                    {atomicNumber: 11,
+                    symbol: "Na",
+                    name: "Sodium",
+                    atomicWeight: 22.989},
+                    
+                    {atomicNumber: 12,
+                    symbol: "Mg",
+                    name: "Magnesium",
+                    atomicWeight: 24.304},
+                    
+                    {atomicNumber: 13,
+                    symbol: "Al",
+                    name: "Aluminum",
+                    atomicWeight: 26.982},
+                    
+                    {atomicNumber: 14,
+                    symbol: "Si",
+                    name: "Silicon",
+                    atomicWeight: 28.804},
+                    
+                    {atomicNumber: 15,
+                    symbol: "P",
+                    name: "Phosphorus",
+                    atomicWeight: 30.974},
+                    
+                    {atomicNumber: 16,
+                    symbol: "S",
+                    name: "Sulphur",
+                    atomicWeight: 32.069},
+                    
+                    {atomicNumber: 17,
+                    symbol: "Cl",
+                    name: "Chlorine",
+                    atomicWeight: 35.446},
+                    
+                    {atomicNumber: 18,
+                    symbol: "Ar",
+                    name: "Argon",
+                    atomicWeight: 39.948},
+                    
+                    {atomicNumber: 19,
+                    symbol: "K",
+                    name: "Potassium",
+                    atomicWeight: 39.096},
+                    
+                    {atomicNumber: 20,
+                    symbol: "Ca",
+                    name: "Calcium",
+                    atomicWeight: 40.078},
+                    
+                    {atomicNumber: 21,
+                    symbol: "Sc",
+                    name: "Scandium",
+                    atomicWeight: 44.966},
+                    
+                    {atomicNumber: 22,
+                    symbol: "Ti",
+                    name: "Titanium",
+                    atomicWeight: 47.867},
+                    
+                    {atomicNumber: 23,
+                    symbol: "V",
+                    name: "Vanadium",
+                    atomicWeight: 50.942},
+                    
+                    {atomicNumber: 24,
+                    symbol: "Cr",
+                    name: "Chromium",
+                    atomicWeight: 51.996},
+                    
+                    {atomicNumber: 25,
+                    symbol: "Mn",
+                    name: "Manganese",
+                    atomicWeight: 54.938},
+                    
+                    {atomicNumber: 26,
+                    symbol: "Fe",
+                    name: "Iron",
+                    atomicWeight: 55.845},
+                    
+                    {atomicNumber: 27,
+                    symbol: "Co",
+                    name: "Cobalt",
+                    atomicWeight: 58.933},
+                    
+                    {atomicNumber: 28,
+                    symbol: "Ni",
+                    name: "Nickel",
+                    atomicWeight: 58.693},
+                    
+                    {atomicNumber: 29,
+                    symbol: "Cu",
+                    name: "Copper",
+                    atomicWeight: 63.546},
+                    
+                    {atomicNumber: 30,
+                    symbol: "Zn",
+                    name: "Zinc",
+                    atomicWeight: 65.38},
+                    
+                    {atomicNumber: 31,
+                    symbol: "Ga",
+                    name: "Gallium",
+                    atomicWeight: 69.723},
+                    
+                    {atomicNumber: 32,
+                    symbol: "Ge",
+                    name: "Germanium",
+                    atomicWeight: 72.630},
+                    
+                    {atomicNumber: 33,
+                    symbol: "As",
+                    name: "Arsenic",
+                    atomicWeight: 74.922},
+                    
+                    {atomicNumber: 34,
+                    symbol: "Se",
+                    name: "Selenium",
+                    atomicWeight: 78.971},
+                    
+                    {atomicNumber: 35,
+                    symbol: "Br",
+                    name: "Bromine",
+                    atomicWeight: 79.901},
+                    
+                    {atomicNumber: 36,
+                    symbol: "Kr",
+                    name: "Krypton",
+                    atomicWeight:83.798},
+                    
+                    ];
+/*Button Constructor Class borrowed from the Khan Academy example. The button constructor is modified for this program. Label is renamed to symbol and the width and height are modified. Atomic Number, Name and Weight are also added to the constructor. The onClick function is heavily modified to draw the element detail and bohr model for each atom.  */
+
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 26;
+    this.height = config.height || 26;
+    this.symbol = config.symbol || "El";
+    this.atomicNumber = config.atomicNumber || "Atomic Number";
+    this.name = config.name || "Element";
+    this.atomicWeight =config.atomicWeight || "Atomic Weight";
+    this.onClick = config.onClick || function() {
+    
+    
+    /*this portion of the onClick function draws the element detail*/
+    
+    fill(255, 255, 255);
+    noStroke();
+    rect(10,380,550,550);
+    noFill();
+    stroke(0, 0, 0);
+    rect(50,370,200,200,5);
+    fill(0, 0, 0);
+    text(this.atomicNumber,75,391);
+    text(this.atomicWeight,219,391);
+    textSize(80);
+    text(this.symbol,149,461);
+    textSize(35);
+    text(this.name,147,540);
+    
+    /*this portion of the onClick function draws the Bohr model of the radius for each element */
+    
+angleMode = "degrees";
+
+noStroke();
+
+//draws a series of ellipses and text for the static portio of the 
+// bohr model
+
+fill(210, 206, 222);
+ellipse(440,440,90,90);
+fill(255, 0, 0);
+textSize(20);
+text("Bohr Model",430,305);
+fill(0, 0, 0);
+textSize(20);
+text("Nucleus",468,440);
+noFill();
+stroke(64, 0, 255);
+ellipse(440,440,150,150);
+ellipse(440,440,200,200);
+ellipse(440,440,250,250);
+ellipse(440,440,300,300);
+
+textSize(10);
+text("n=1",374,440);
+text("n=2",378,277);
+text("n=3",388,327);
+text("n=4",333,341);
+
+/*this loop draws n blue circles where n is the atomic number. Each blue circle represents a proton in the nucleus. The protons are constrained to draw within the nucleus by setting their x and y coordinates to a random number within a range.*/
+
+for(var i = 0;i < this.atomicNumber;i++){
+var randomX = random(420,465);
+var randomY = random(420,465);
+fill(64, 0, 255);
+stroke(0, 0, 0);
+strokeWeight(1);
+ellipse(randomX,randomY,12,12);
+}
+
+
+/*this loop draws n red circles where n is the atomic number. Each red circle represents an electron orbiting the nucleus. The electrons are constrained to the correct orbital by a series of if statements. Each if statement uses pushMatrix(), translate(), rotate(), and popMatrix() to draw the electron on the orbital circle and rotate it around the circle. The rotation angle is determined by 360/x where x is the number of electrons in the orbital. This model is a very simplified version of the Bohr Radius model and any errors in the physics or chemistry are due to the limitations of the Khan environment and the coder. */
+
+
+for(var i = 0;i < this.atomicNumber;i++){
+    if(i < 2){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*180);
+    fill(255, 0, 0);
+    ellipse(2,77,12,12);
+    popMatrix();
+    }
+    
+    if(i >=2 && i < 10){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*45);
+    fill(255, 0, 0);
+    ellipse(2,101,12,12);
+    popMatrix();
+    }
+    
+    if(i >= 10 && i < 18){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*45);
+    fill(255, 0, 0);
+    ellipse(2,127,12,12);
+    popMatrix();
+    }
+    
+    if(i >= 18 && i < 36){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*20);
+    fill(255, 0, 0);
+    ellipse(2,153,12,12);
+    popMatrix();
+    }
+}
+    
+    
+    
+    };
+};
+
+
+
+/*draw and isMouseInside prototypes from Khan button. No changes except button size. */
+
+Button.prototype.draw = function() {
+    fill(237, 240, 240);
+    rect(this.x, this.y, this.width, this.height);
+    fill(0, 0, 0);
+    textSize(18);
+    textAlign(CENTER, CENTER);
+    text(this.symbol, this.x+14, this.y+(this.height/4)+6);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+
+
+/*create an empty array named element buttons. various loops are used to add new instances of the button object to the array at the appropriate x and y positions to fill out the rows of the periodic table. for buttons 19- 90 a two dimensional for loop is used to create the buttons. */
+
+
+var elementButtons = [];
+
+elementButtons.push(new Button({x:39,y:26})); //hydrogen
+elementButtons.push(new Button({x:498,y:26})); //helium
+
+for (var i = 0; i <2;i++){ // Li and Be
+    var elementX = i * 27 + 39;
+    var elementY = 53;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+}
+
+for (var i = 0; i <6;i++){ // Boron through Neon
+    var elementX = i * 27 + 363;
+    var elementY = 53;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+    
+}
+
+for (var i = 0; i <2;i++){ // Na and Mg
+    var elementX = i * 27 + 39;
+    var elementY = 80;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+}
+
+for (var i = 0; i <6;i++){ // Al through Argon
+    var elementX = i * 27 + 363;
+    var elementY = 80;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+    
+}
+
+
+
+for (var i = 0; i < 4; i++){ //elements 19-118 excluding lanthanides and actinides
+    for (var j = 0;j < 18;j++){
+        var elementX = j * 27 + 39;
+        var elementY = i * 27 + 107;
+         elementButtons.push(new Button({x:elementX,y:elementY}));
+            }
+           
+}
+
+for (var i = 0; i < 15; i++){ // lanthanides and actinides
+    for (var j = 0;j < 2;j++){
+        var elementX = i * 27 + 40;
+        var elementY = j * 27 + 237;
+        elementButtons.push(new Button({x:elementX,y:elementY}));
+    
+    }
+}
+
+
+/*for loop is used to add the data for each element to the element button objects from their corresponding object in the element data array. */
+
+for (var i = 0; i<elementData.length;i++){
+    elementButtons[i].symbol = elementData[i].symbol;
+    elementButtons[i].atomicNumber = elementData[i].atomicNumber;
+    elementButtons[i].name = elementData[i].name;
+    elementButtons[i].atomicWeight = elementData[i].atomicWeight;
+}
+
+
+/*for loop is used to create a handle mouse click method for each
+element button. */
+
+mouseClicked = function() {
+    for(var i = 0;i < elementData.length;i++){
+        elementButtons[i].handleMouseClick();
+    }
+    
+    
+};
+
+/*main draw function a for loop is used to call the draw method for each element button.  */
+draw = function() {
+     for (var i = 0; i < elementButtons.length; i++) {
+        elementButtons[i].draw();
+    }
+    
+    
+    text("Periodic Table of Elements",167,10,200,100);
+};
