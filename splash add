@@ -1,0 +1,670 @@
+/*Periodic Table of Elements. Coded by Joe Hicks for URI CSC 106 Final Project. All code is original except for the button constructor class and object instances are copie from the Khan button class in the instructional videos. The periodic table data was added in by hand from data copied from https://pubchem.ncbi.nlm.nih.gov/periodic-table/. Any errors in the data are the coder's.  */
+
+
+/* A variable current scene is created. The app will display the splash scene, or periodic table, and element data screen depending on the state of this variable*/
+var currentScene = 1;
+
+/* Bitmoji object type constructor from previous assignment. skip to line 135 for end of bitmoji code  */
+var Bitmoji = function(bitmojiX,bitmojiY,bitmojiHeight,shirtColor,initials){
+        this.bitmojiX = bitmojiX;
+        this.bitmojiY = bitmojiY;
+        this.bitmojiHeight = bitmojiHeight;
+        this.shirtColor = shirtColor;
+        this.initials = initials;
+};
+
+
+            // function prototype for drawBitmojiHead method 
+    
+Bitmoji.prototype.drawBitmojiHead = function() { 
+
+var ratio = this.bitmojiHeight/166;
+noStroke();
+fill(235, 229, 195); //fill to skin tone
+ellipse(this.bitmojiX,this.bitmojiY,ratio*85,ratio*100); //head
+
+//cheeks bone chisel like dr fay video
+
+
+
+//hair
+fill(217, 187, 15); //fill to hair color
+ellipse(this.bitmojiX,this.bitmojiY-ratio*33,ratio*66,ratio*33); //top of hair
+quad(this.bitmojiX-ratio*30,this.bitmojiY-ratio*38,this.bitmojiX,this.bitmojiY-ratio*27,this.bitmojiX-ratio*37,this.bitmojiY+ratio*1,this.bitmojiX-ratio*44,this.bitmojiY-ratio*7); //left of hair
+quad(this.bitmojiX+ratio*30,this.bitmojiY-ratio*38,this.bitmojiX-ratio*7,this.bitmojiY-ratio*27,this.bitmojiX+ratio*43,this.bitmojiY+ratio*1,this.bitmojiX+ratio*45,this.bitmojiY-ratio*7);   // right of hair 
+
+//eyes
+fill(250, 245, 245);   //white fill
+ellipse(this.bitmojiX-ratio*10,this.bitmojiY,ratio*10,ratio*8);   //left eye white fill
+ellipse(this.bitmojiX+ratio*7,this.bitmojiY,ratio*10,ratio*8);   //right eye white fill
+
+fill(31, 157, 207);  //blue eye fill
+ellipse(this.bitmojiX-ratio*9,this.bitmojiY,ratio*6,ratio*4);   //left blue eye fill
+ellipse(this.bitmojiX+ratio*8,this.bitmojiY,ratio*6,ratio*4);   //right blue eye fill
+
+//eyelashes
+
+stroke(217, 187, 15); //make eyelashes same as hair color
+strokeWeight(ratio*1);      //thin eyelash with stroke weight
+line(this.bitmojiX-ratio*15,this.bitmojiY-ratio*7,this.bitmojiX-ratio*5,this.bitmojiY-ratio*6);  //left eyelash
+stroke(217, 187, 15); //make eyelashes same as hair color
+strokeWeight(ratio*1);      //thin eyelash with stroke weight
+line(this.bitmojiX+ratio*2,this.bitmojiY-ratio*6,this.bitmojiX+ratio*13,this.bitmojiY-ratio*7);  //right eyelash
+
+//nose
+fill(235, 229, 195); //fill to skin tone
+bezier(this.bitmojiX,this.bitmojiY,this.bitmojiX+ratio*21,this.bitmojiY+ratio*22,this.bitmojiX-ratio*8,this.bitmojiY+ratio*13,this.bitmojiX-ratio*4,this.bitmojiY+ratio*16); //use bezier for nose similar to Dr. Fay video
+
+//mouth
+fill(255,255,255);   //fill white for teeth
+arc(this.bitmojiX+ratio*3,this.bitmojiY+ratio*25,ratio*30,ratio*13,4,149); //mouth
+
+
+
+//facial hair - goatee
+fill(217, 187, 15); //set fill to hair color
+ellipse(this.bitmojiX+ratio*7,this.bitmojiY+ratio*49,ratio*33,ratio*24); //bottom of goatee
+stroke(217, 187, 15); //make side same as hair color
+strokeWeight(ratio*3);      //left side  with stroke weight
+line(this.bitmojiX-ratio*9,this.bitmojiY+ratio*49,this.bitmojiX-ratio*11,this.bitmojiY+ratio*25);  //left side
+stroke(217, 187, 15); //make side same as hair color
+strokeWeight(ratio*3);      //left side with stroke weight
+line(this.bitmojiX+ratio*24,this.bitmojiY+ratio*49,this.bitmojiX+ratio*19,this.bitmojiY+ratio*25);  //right side
+
+stroke(217, 187, 15); //make mustache same as hair color
+strokeWeight(ratio*4);      // mustache stroke weight
+line(this.bitmojiX-ratio*9,this.bitmojiY+ratio*25,this.bitmojiX+ratio*17,this.bitmojiY+ratio*24);  // mustache
+
+//hat
+noStroke();  //turn off stroke outline
+fill(76, 184, 168); //set fill to hat color
+ellipse(this.bitmojiX+ratio*2,this.bitmojiY-ratio*43,ratio*65,ratio*48); //ellipse for top of hat
+
+fill(217, 187, 15); //fill to hair color
+ellipse(this.bitmojiX,this.bitmojiY-ratio*33,ratio*61,ratio*33); // fill top of hair back to cover hat ellipse
+
+stroke(76, 184, 168); //set fill to hat color
+strokeWeight(ratio*12);     //set stroke weight for hat bill
+line(this.bitmojiX-ratio*21,this.bitmojiY-ratio*45,this.bitmojiX+ratio*54,this.bitmojiY-ratio*42);   //hat bill
+
+
+
+};
+
+    // function prototype for drawBitmojiBody method 
+
+Bitmoji.prototype.drawBitmojiBody = function() { 
+
+//shirt
+var ratio = this.bitmojiHeight/166;
+noStroke(); //turn off stroke outline
+
+fill(this.shirtColor); //set fill to shirt color
+
+quad(this.bitmojiX+ratio*5,this.bitmojiY+ratio*50,this.bitmojiX+ratio*45,this.bitmojiY+ratio*42,this.bitmojiX+ratio*45,this.bitmojiY+ratio*75,this.bitmojiX+ratio*5,this.bitmojiY+ratio*75); //right side of shirt
+quad(this.bitmojiX+ratio*5,this.bitmojiY+ratio*50,this.bitmojiX-ratio*45,this.bitmojiY+ratio*42,this.bitmojiX-ratio*45,this.bitmojiY+ratio*75,this.bitmojiX+ratio*5,this.bitmojiY+ratio*75); //left side of shirt
+
+
+//if statement to display initials if conditional is true
+if(this.initials){
+
+    fill(242, 230, 230); //set fill for initials
+    var f = createFont("cursive"); // use variable to set font to cursive
+    
+    text("J H", this.bitmojiX-ratio*12,this.bitmojiY+ratio*43); // display initials on shirt
+}
+
+};
+
+
+    // function prototype for drawBitmoji method it calls previous two methods
+
+Bitmoji.prototype.drawBitmoji = function() {
+this.drawBitmojiHead();
+this.drawBitmojiBody();
+};
+
+
+//create new instance of Bitmoji named redBitmoji with shirt color red
+
+var redBitmoji = new Bitmoji(200,400,140,color(255, 0, 0),false);
+
+//create new instance of Bitmoji named blueBitmoji with shirt color blue
+
+var blueBitmoji = new Bitmoji(42,216,89,color(13, 0, 255),false);
+
+
+
+/* An array of objects is created to store the data for each individual element. Four properties of each element are stored in an object for each element.*/
+
+var elementData = [{atomicNumber: 1,
+                    symbol: "H",
+                    name: "Hydrogen",
+                    atomicWeight: 1.008},
+                    
+                    {atomicNumber: 2,
+                    symbol: "He",
+                    name: "Helium",
+                    atomicWeight: 4.0026},
+                    
+                    {atomicNumber: 3,
+                    symbol: "Li",
+                    name: "Lithium",
+                    atomicWeight: 6.938},
+                    
+                    {atomicNumber: 4,
+                    symbol: "Be",
+                    name: "Beryllium",
+                    atomicWeight: 9.012},
+                    
+                    {atomicNumber: 5,
+                    symbol: "Bo",
+                    name: "Boron",
+                    atomicWeight: 10.806},
+                    
+                    {atomicNumber: 6,
+                    symbol: "C",
+                    name: "Carbon",
+                    atomicWeight: 12.0096},
+                    
+                    {atomicNumber: 7,
+                    symbol: "N",
+                    name: "Nitrogen",
+                    atomicWeight: 14.0054},
+                    
+                    {atomicNumber: 8,
+                    symbol: "O",
+                    name: "Oxygen",
+                    atomicWeight: 15.999},
+                    
+                    {atomicNumber: 9,
+                    symbol: "Fl",
+                    name: "Fluorine",
+                    atomicWeight: 18.998},
+                    
+                    {atomicNumber: 10,
+                    symbol: "Ne",
+                    name: "Neon",
+                    atomicWeight: 20.1797},
+                    
+                    {atomicNumber: 11,
+                    symbol: "Na",
+                    name: "Sodium",
+                    atomicWeight: 22.989},
+                    
+                    {atomicNumber: 12,
+                    symbol: "Mg",
+                    name: "Magnesium",
+                    atomicWeight: 24.304},
+                    
+                    {atomicNumber: 13,
+                    symbol: "Al",
+                    name: "Aluminum",
+                    atomicWeight: 26.982},
+                    
+                    {atomicNumber: 14,
+                    symbol: "Si",
+                    name: "Silicon",
+                    atomicWeight: 28.804},
+                    
+                    {atomicNumber: 15,
+                    symbol: "P",
+                    name: "Phosphorus",
+                    atomicWeight: 30.974},
+                    
+                    {atomicNumber: 16,
+                    symbol: "S",
+                    name: "Sulphur",
+                    atomicWeight: 32.069},
+                    
+                    {atomicNumber: 17,
+                    symbol: "Cl",
+                    name: "Chlorine",
+                    atomicWeight: 35.446},
+                    
+                    {atomicNumber: 18,
+                    symbol: "Ar",
+                    name: "Argon",
+                    atomicWeight: 39.948},
+                    
+                    {atomicNumber: 19,
+                    symbol: "K",
+                    name: "Potassium",
+                    atomicWeight: 39.096},
+                    
+                    {atomicNumber: 20,
+                    symbol: "Ca",
+                    name: "Calcium",
+                    atomicWeight: 40.078},
+                    
+                    {atomicNumber: 21,
+                    symbol: "Sc",
+                    name: "Scandium",
+                    atomicWeight: 44.966},
+                    
+                    {atomicNumber: 22,
+                    symbol: "Ti",
+                    name: "Titanium",
+                    atomicWeight: 47.867},
+                    
+                    {atomicNumber: 23,
+                    symbol: "V",
+                    name: "Vanadium",
+                    atomicWeight: 50.942},
+                    
+                    {atomicNumber: 24,
+                    symbol: "Cr",
+                    name: "Chromium",
+                    atomicWeight: 51.996},
+                    
+                    {atomicNumber: 25,
+                    symbol: "Mn",
+                    name: "Manganese",
+                    atomicWeight: 54.938},
+                    
+                    {atomicNumber: 26,
+                    symbol: "Fe",
+                    name: "Iron",
+                    atomicWeight: 55.845},
+                    
+                    {atomicNumber: 27,
+                    symbol: "Co",
+                    name: "Cobalt",
+                    atomicWeight: 58.933},
+                    
+                    {atomicNumber: 28,
+                    symbol: "Ni",
+                    name: "Nickel",
+                    atomicWeight: 58.693},
+                    
+                    {atomicNumber: 29,
+                    symbol: "Cu",
+                    name: "Copper",
+                    atomicWeight: 63.546},
+                    
+                    {atomicNumber: 30,
+                    symbol: "Zn",
+                    name: "Zinc",
+                    atomicWeight: 65.38},
+                    
+                    {atomicNumber: 31,
+                    symbol: "Ga",
+                    name: "Gallium",
+                    atomicWeight: 69.723},
+                    
+                    {atomicNumber: 32,
+                    symbol: "Ge",
+                    name: "Germanium",
+                    atomicWeight: 72.630},
+                    
+                    {atomicNumber: 33,
+                    symbol: "As",
+                    name: "Arsenic",
+                    atomicWeight: 74.922},
+                    
+                    {atomicNumber: 34,
+                    symbol: "Se",
+                    name: "Selenium",
+                    atomicWeight: 78.971},
+                    
+                    {atomicNumber: 35,
+                    symbol: "Br",
+                    name: "Bromine",
+                    atomicWeight: 79.901},
+                    
+                    {atomicNumber: 36,
+                    symbol: "Kr",
+                    name: "Krypton",
+                    atomicWeight:83.798},
+                    
+                    ];
+/*Button Constructor Class borrowed from the Khan Academy example. The button constructor is modified for this program. Label is renamed to symbol and the width and height are modified. Atomic Number, Name and Weight are also added to the constructor. The onClick function is heavily modified to draw the element detail and bohr model for each atom.  */
+
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 26;
+    this.height = config.height || 26;
+    this.symbol = config.symbol || "El";
+    this.atomicNumber = config.atomicNumber || "Atomic Number";
+    this.name = config.name || "Element";
+    this.atomicWeight =config.atomicWeight || "Atomic Weight";
+    this.onClick = config.onClick || function() {
+    
+    
+     /*this portion of the onClick function draws the element detail*/
+    
+    currentScene = 3;
+    strokeWeight(1);
+    background(255,255,255);
+    noStroke();
+    noFill();
+    stroke(0, 0, 0);
+    rect(50,70,200,200,5);
+    fill(0, 0, 0);
+    textSize(18);
+    text(this.atomicNumber,75,91);
+    text(this.atomicWeight,219,91);
+    textSize(80);
+    text(this.symbol,149,161);
+    textSize(35);
+    text(this.name,147,240);
+    fill(3, 85, 107);
+    textSize(10);
+    text("Atomic Number",95,111);
+    text("Atomic Weight",209,111);
+        /*this portion of the onClick function draws the Bohr model of the radius for each element */
+    
+angleMode = "degrees";
+
+noStroke();
+
+//draws a series of ellipses and text for the static portion of the 
+// bohr model
+
+fill(210, 206, 222);
+ellipse(440,440,90,90);
+fill(255, 0, 0);
+textSize(20);
+text("Bohr Model",430,255);
+fill(0, 0, 0);
+textSize(20);
+text("Nucleus",498,440);
+noFill();
+stroke(64, 0, 255);
+ellipse(440,440,150,150);
+ellipse(440,440,200,200);
+ellipse(440,440,250,250);
+ellipse(440,440,300,300);
+
+textSize(10);
+text("n=1",379,440);
+text("n=2",378,377);
+text("n=3",390,337);
+text("n=4",338,341);
+
+/*this loop draws n blue circles where n is the atomic number. Each blue circle represents a proton in the nucleus. The protons are constrained to draw within the nucleus by setting their x and y coordinates to a random number within a range.*/
+
+for(var i = 0;i < this.atomicNumber;i++){
+var randomX = random(420,465);
+var randomY = random(420,465);
+fill(64, 0, 255);
+stroke(0, 0, 0);
+strokeWeight(1);
+ellipse(randomX,randomY,12,12);
+}
+
+
+/*this loop draws n red circles where n is the atomic number. Each red circle represents an electron orbiting the nucleus. The electrons are constrained to the correct orbital by a series of if statements. Each if statement uses pushMatrix(), translate(), rotate(), and popMatrix() to draw the electron on the orbital circle and rotate it around the circle. The rotation angle is determined by 360/x where x is the number of electrons in the orbital. This model is a very simplified version of the Bohr Radius model and any errors in the physics or chemistry are due to the limitations of the Khan environment and the coder. */
+
+
+for(var i = 0;i < this.atomicNumber;i++){
+    if(i < 2){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*180);
+    fill(255, 0, 0);
+    ellipse(2,77,12,12);
+    popMatrix();
+    }
+    
+    if(i >=2 && i < 10){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*45);
+    fill(255, 0, 0);
+    ellipse(2,101,12,12);
+    popMatrix();
+    }
+    
+    if(i >= 10 && i < 18){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*45);
+    fill(255, 0, 0);
+    ellipse(2,127,12,12);
+    popMatrix();
+    }
+    
+    if(i >= 18 && i < 36){
+    pushMatrix();
+    translate(440,440);
+    rotate(i*20);
+    fill(255, 0, 0);
+    ellipse(2,153,12,12);
+    popMatrix();
+    }
+} //closes for loop
+
+     redBitmoji.drawBitmoji();
+    
+}; //closes onClick function
+    
+    
+
+};
+
+
+
+/*draw and isMouseInside prototypes from Khan button. No changes except button size. */
+
+Button.prototype.draw = function() {
+    fill(237, 240, 240);
+    rect(this.x, this.y, this.width, this.height);
+    fill(0, 0, 0);
+    textSize(18);
+    textAlign(CENTER, CENTER);
+    text(this.symbol, this.x+14, this.y+(this.height/4)+6);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+
+
+/*create an empty array named element buttons. various for loops are used to add new instances of the button object to the array at the appropriate x and y positions to fill out the rows of the periodic table. for buttons 19- 90 a two dimensional for loop is used to create the buttons. */
+
+
+var elementButtons = [];
+
+elementButtons.push(new Button({x:39,y:26})); //hydrogen
+elementButtons.push(new Button({x:498,y:26})); //helium
+
+for (var i = 0; i <2;i++){ // Li and Be
+    var elementX = i * 27 + 39;
+    var elementY = 53;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+}
+
+for (var i = 0; i <6;i++){ // Boron through Neon
+    var elementX = i * 27 + 363;
+    var elementY = 53;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+    
+}
+
+for (var i = 0; i <2;i++){ // Na and Mg
+    var elementX = i * 27 + 39;
+    var elementY = 80;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+}
+
+for (var i = 0; i <6;i++){ // Al through Argon
+    var elementX = i * 27 + 363;
+    var elementY = 80;
+    elementButtons.push(new Button({x:elementX,y:elementY}));
+    
+}
+
+
+
+for (var i = 0; i < 4; i++){ //elements 19-118 excluding lanthanides and actinides
+    for (var j = 0;j < 18;j++){
+        var elementX = j * 27 + 39;
+        var elementY = i * 27 + 107;
+         elementButtons.push(new Button({x:elementX,y:elementY}));
+            }
+           
+}
+
+for (var i = 0; i < 15; i++){ // lanthanides and actinides
+    for (var j = 0;j < 2;j++){
+        var elementX = i * 27 + 40;
+        var elementY = j * 27 + 237;
+        elementButtons.push(new Button({x:elementX,y:elementY}));
+    
+    }
+}
+
+
+/*for loop is used to add the data for each element to the element button objects from their corresponding object in the element data array. */
+
+for (var i = 0; i<elementData.length;i++){
+    elementButtons[i].symbol = elementData[i].symbol;
+    elementButtons[i].atomicNumber = elementData[i].atomicNumber;
+    elementButtons[i].name = elementData[i].name;
+    elementButtons[i].atomicWeight = elementData[i].atomicWeight;
+}
+
+
+
+
+//a new instance of the button class begin Button. It will be drawn on the splash screen and when clicked it will transition the program to the periodic table screen. 
+
+var beginButton = new Button({
+    x: 145,
+    y: 533,
+    width: 150,
+    height:50,
+    symbol: "                         Periodic Table",
+    onClick: function() {
+        currentScene = 2;
+    }
+});
+
+
+/*A function splash Draw is created. It displays the splash screen and calls the draw bitmoji prototype. It also displays the begin button. The function is called in the main draw function when current scene is equal to one. */
+
+var splashDraw = function(){
+    
+    
+        
+        background(255, 255, 255);
+        fill(0, 0, 255,112);
+        rect(102, 108, 40, 40);
+        
+        
+        fill(0, 0, 0);
+        textSize(29);
+        text("P",125,126);
+        
+        fill(113, 223, 255,112);
+        rect(155, 108, 40, 40);
+        
+      
+        fill(0, 0, 0);
+        textSize(29);
+        text("Er",173,126);
+        
+        fill(212, 0, 255,122);
+        rect(202, 107, 40, 40);
+        
+        fill(0, 0, 0);
+        textSize(29);
+        text("I",223,124);
+        
+        fill(245, 233, 66,252);
+        rect(252, 108, 40, 40);
+        
+        fill(0, 0, 0);
+        textSize(29);
+        text("O",272,124);
+        
+        fill(55, 176, 51,252);
+        rect(302, 109, 40, 40);
+        
+        fill(0, 0, 0);
+        textSize(29);
+        text("D",322,125);
+        
+        fill(230, 49, 85,252);
+        rect(352, 108, 40, 40);
+        
+        fill(0, 0, 0);
+        textSize(29);
+        text("I",372,124);
+        
+        fill(245, 102, 19,252);
+        rect(402, 108, 40, 40);
+        
+        fill(0, 0, 0);
+        textSize(29);
+        text("C",422,123);
+        
+        text("Table",250,175);
+        text("of Elements",248,210);
+        
+        text("By: Joe Hicks",250,250);
+        text("Click the button to begin.",250,300);
+         blueBitmoji.drawBitmoji();
+         beginButton.draw();
+         
+};
+
+
+
+
+
+mouseClicked = function() {
+    
+/*for loop is used to create a handle mouse click method for each
+element button. */
+    
+    for(var i = 0;i < elementData.length;i++){
+        elementButtons[i].handleMouseClick();
+    }
+    
+    beginButton.handleMouseClick();
+};
+
+
+
+
+
+
+
+/*main draw function a for loop is used to call the draw method for each element button.  */
+draw = function() {
+     if(currentScene === 1){
+    splashDraw();
+        
+    }
+     
+     
+     if(currentScene === 2){
+     background(255, 255, 255);
+     redBitmoji.drawBitmoji();
+     for (var i = 0; i < elementButtons.length; i++) {
+        elementButtons[i].draw();
+    }
+    
+    
+    text("Periodic Table of Elements",167,10,200,100);
+    
+     }
+     
+     if(currentScene ===3){
+         beginButton.draw();
+     }
+     
+};
